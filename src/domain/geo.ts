@@ -114,10 +114,16 @@ export function clusterByDistance<T extends Point & { id: string }>(
   return clusters;
 }
 
+/** A point at exactly 0,0 is a missing coordinate, not a place in the Atlantic. */
+export function isPositioned(p: Point): boolean {
+  return p.lat !== 0 || p.lng !== 0;
+}
+
 /** Rough kilometres travelled across a list of visited coordinates. */
 export function totalDistanceKm(points: Point[]): number {
+  const real = points.filter(isPositioned);
   let sum = 0;
-  for (let i = 1; i < points.length; i++) sum += haversineKm(points[i - 1], points[i]);
+  for (let i = 1; i < real.length; i++) sum += haversineKm(real[i - 1], real[i]);
   return Math.round(sum);
 }
 

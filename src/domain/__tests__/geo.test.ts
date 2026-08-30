@@ -1,5 +1,12 @@
 import { describe, expect, it } from 'vitest';
-import { clusterByDistance, estimateLeg, haversineKm, sortByProximity, totalDistanceKm } from '../geo';
+import {
+  clusterByDistance,
+  estimateLeg,
+  haversineKm,
+  isPositioned,
+  sortByProximity,
+  totalDistanceKm,
+} from '../geo';
 import type { Activity } from '../../types';
 
 const KL = { lat: 3.139, lng: 101.6869 };
@@ -106,5 +113,19 @@ describe('totalDistanceKm', () => {
 
   it('is zero for a single point', () => {
     expect(totalDistanceKm([KL])).toBe(0);
+  });
+
+  it('ignores unpositioned points instead of routing via Null Island', () => {
+    const withGap = totalDistanceKm([KK, { lat: 0, lng: 0 }, { lat: 5.99, lng: 116.08 }]);
+    // KK to a point a kilometre away — not a 26,000 km round trip to 0,0.
+    expect(withGap).toBeLessThan(5);
+  });
+});
+
+describe('isPositioned', () => {
+  it('treats exactly 0,0 as a missing coordinate', () => {
+    expect(isPositioned({ lat: 0, lng: 0 })).toBe(false);
+    expect(isPositioned(KL)).toBe(true);
+    expect(isPositioned({ lat: 0, lng: 0.5 })).toBe(true);
   });
 });

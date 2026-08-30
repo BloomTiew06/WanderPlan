@@ -1,7 +1,8 @@
-import type { AppState, Member, Trip, Visit } from '../types';
+import type { AppState, Member, Profile, Trip, Visit } from '../types';
 import { findDestination } from '../data/destinations';
 import { addDays, iso } from '../domain/dates';
 import { localItinerary } from '../services/ai';
+import { newlyUnlocked } from '../domain/stickers';
 
 export const YOU_ID = 'm-you';
 
@@ -119,22 +120,28 @@ function pastTrip(today: string): Trip {
 export function initialState(): AppState {
   const today = iso(new Date());
   const past = pastTrip(today);
-  return {
-    profile: {
-      memberId: YOU_ID,
-      name: 'You',
-      language: 'en',
-      mascot: {
-        name: 'Trunk',
-        points: 240,
-        lastFedAt: new Date(Date.now() - 5 * 3_600_000).toISOString(),
-        lastRestedAt: null,
-        pinnedStickerId: null,
-      },
-      stickers: [],
-      emergencyContacts: [],
-      checkInThresholdHours: 24,
+  const profile: Profile = {
+    memberId: YOU_ID,
+    name: 'You',
+    language: 'en',
+    mascot: {
+      name: 'Trunk',
+      points: 240,
+      lastFedAt: new Date(Date.now() - 5 * 3_600_000).toISOString(),
+      lastRestedAt: null,
+      pinnedStickerId: null,
     },
+    stickers: [],
+    emergencyContacts: [],
+    checkInThresholdHours: 24,
+  };
+  // Award the stickers those seeded visits earned, through the same path a live
+  // check-in takes — otherwise the map shows Penang pins while the passport
+  // insists you have never been.
+  profile.stickers = newlyUnlocked(past.visits, profile, past.id);
+
+  return {
+    profile,
     trips: [past],
     activeTripId: null,
     clockOffsetDays: 0,

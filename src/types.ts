@@ -266,6 +266,12 @@ export interface Trip {
   budgetCap: number;
   currency: string;
   categoryCaps: Partial<Record<CostCategory, number>>;
+  /**
+   * Pace the group settled on in a vote. Kept separate from each member's
+   * stated preference so the snapshot still reports what people actually said,
+   * rather than being rewritten to agree with the outcome.
+   */
+  decidedPace?: Pace;
   members: Member[];
   days: Day[];
   costItems: CostItem[];

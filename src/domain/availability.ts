@@ -100,7 +100,10 @@ export function findOverlap(members: Member[], opts: OverlapOptions = {}): Overl
             return eachDate(range).every((d) => set.has(d));
           })
           .map((m) => m.id);
-        candidates.push({ range, memberIds: shared });
+        // A run can clear the "k members free each day" bar without any one
+        // member covering the whole span. Those windows work for nobody, so
+        // they are not candidates.
+        if (shared.length > 0) candidates.push({ range, memberIds: shared });
       }
       runStart = null;
     };

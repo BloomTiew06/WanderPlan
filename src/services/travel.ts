@@ -197,3 +197,18 @@ export function pollFlightStatus(flightNumber: string, tick: number): StatusUpda
 function delay(ms = 600): Promise<void> {
   return new Promise((r) => setTimeout(r, ms));
 }
+
+/**
+ * Address to coordinates. A real build sends this to the maps geocoding
+ * endpoint already in use for routes; offline it resolves to the closest thing
+ * on file, falling back to the city centre. Never returns 0,0 — a booking
+ * that lands on Null Island wrecks every distance the app calculates.
+ */
+export function geocode(address: string, dest: Destination): { lat: number; lng: number } {
+  const needle = address.toLowerCase();
+  const hit =
+    dest.pois.find((p) => needle.includes(p.name.toLowerCase()) || p.address.toLowerCase().includes(needle)) ??
+    (STAY_NAMES[dest.id] ?? []).find((s) => needle.includes(s.name.toLowerCase()) || needle.includes(s.area.toLowerCase()));
+  if (hit) return { lat: hit.lat, lng: hit.lng };
+  return { lat: dest.lat, lng: dest.lng };
+}

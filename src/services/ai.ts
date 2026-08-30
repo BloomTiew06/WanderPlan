@@ -13,16 +13,9 @@
  * other changes nothing downstream.
  */
 
-import type {
-  Activity,
-  CostCategory,
-  Day,
-  InterestTag,
-  Member,
-  Trip,
-} from '../types';
+import type { Activity, CostCategory, Day, InterestTag, Member, Trip } from '../types';
 import type { Destination, MonthProfile, Poi } from '../data/destinations';
-import { addDays, daysBetween, MONTHS_LONG } from '../domain/dates';
+import { addDays, daysBetween } from '../domain/dates';
 import { estimateLeg, sortByProximity } from '../domain/geo';
 import { buildSnapshot } from '../domain/preferences';
 
@@ -218,6 +211,7 @@ export async function generateItinerary(trip: Trip, dest: Destination): Promise<
       budgetCap: trip.budgetCap,
       groupSize: trip.members.length,
       profile: buildSnapshot(trip.members),
+      decidedPace: trip.decidedPace ?? null,
     },
     fallback: () => localItinerary(trip, dest),
   });
@@ -226,7 +220,9 @@ export async function generateItinerary(trip: Trip, dest: Destination): Promise<
 export function localItinerary(trip: Trip, dest: Destination): Day[] {
   if (!trip.dates) return [];
   const snap = buildSnapshot(trip.members);
-  const stops = PACE_STOPS[snap.dominantPace] ?? 4;
+  // A settled vote beats the raw aggregate: the group has already had this
+  // argument and the itinerary should reflect what they landed on.
+  const stops = PACE_STOPS[trip.decidedPace ?? snap.dominantPace] ?? 4;
   const dayCount = daysBetween(trip.dates.start, trip.dates.end) + 1;
   const ranked = scorePois(dest, trip.members);
 
@@ -234,15 +230,23 @@ export function localItinerary(trip: Trip, dest: Destination): Day[] {
   // day up front rather than generating full days and trimming means a must-do
   // ranked to the top can never be the thing that gets cut.
   const edgeDay = (i: number) => dayCount > 1 && (i === 0 || i === dayCount - 1);
+  const hasFullDays = dayCount > 2;
+  /** Half a day or more of committed time — not something to land on an edge day. */
+  const isBigOuting = (p: Poi) => p.durationMin > 180;
   const pool = [...ranked];
   const days: Day[] = [];
   for (let i = 0; i < dayCount; i++) {
     const date = addDays(trip.dates.start, i);
-    const budgetStops = edgeDay(i) ? 2 : stops;
+    const isEdge = edgeDay(i);
+    const budgetStops = isEdge ? 2 : stops;
     const picked: Activity[] = [];
     const usedSlots = new Set<number>();
     for (let s = 0; s < pool.length && picked.length < budgetStops - 1; s++) {
       const cand = pool[s];
+      // Keep the long day trips and the flagged must-dos off arrival and
+      // departure days: those are the days most likely to be eaten by a delay,
+      // and they're the ones we deliberately keep light.
+      if (isEdge && hasFullDays && (cand.mustDoFor || isBigOuting(cand.poi))) continue;
       // Vary the shape of a day rather than stacking four museums before lunch,
       // unless the stop is a must-do, which always goes in.
       if (usedSlots.has(cand.poi.slot) && picked.length > 1 && !cand.mustDoFor) continue;
@@ -297,7 +301,7 @@ export async function regenerateDay(trip: Trip, dest: Destination, dayIndex: num
     user: { regenerate: day.date, keepLocked: day.activities.filter((a) => a.locked).map((a) => a.name) },
     fallback: () => {
       const snap = buildSnapshot(trip.members);
-      const stops = PACE_STOPS[snap.dominantPace] ?? 4;
+      const stops = PACE_STOPS[trip.decidedPace ?? snap.dominantPace] ?? 4;
       const locked = day.activities.filter((a) => a.locked);
       const usedElsewhere = new Set(
         trip.days.flatMap((d, i) => (i === dayIndex ? [] : d.activities.map((a) => a.poiId ?? ''))),
@@ -557,5 +561,3 @@ export function extractedToActivity(p: ExtractedPlace): Activity {
     socialRef: { platform: p.platform, url: p.url, caption: p.caption, thumbnail: p.thumbnail },
   };
 }
-
-export { MONTHS_LONG };

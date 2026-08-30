@@ -79,6 +79,16 @@ describe('findOverlap', () => {
     expect(res.window?.start).toBe('2026-03-01');
   });
 
+  it('never proposes a window that works for nobody end to end', () => {
+    // Each day here has someone free, but no single person covers the whole span.
+    const res = findOverlap([
+      member('a', [['2026-06-01', '2026-06-04']]),
+      member('b', [['2026-06-05', '2026-06-08']]),
+    ]);
+    for (const c of res.candidates) expect(c.memberIds.length).toBeGreaterThan(0);
+    expect(res.window).not.toEqual({ start: '2026-06-01', end: '2026-06-08' });
+  });
+
   it('ignores windows shorter than the minimum', () => {
     const res = findOverlap(
       [member('a', [['2026-06-01', '2026-06-02']]), member('b', [['2026-06-01', '2026-06-02']])],

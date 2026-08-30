@@ -18,6 +18,9 @@ type Dict = Record<string, string>;
 const en: Dict = {
   'nav.trips': 'Trips',
   'nav.itinerary': 'Itinerary',
+  'nav.group': 'Group',
+  'nav.language': 'Language',
+  'nav.checkins': 'Check-ins',
   'nav.stays': 'Stays & Flights',
   'nav.budget': 'Budget',
   'nav.spending': 'Spending',
@@ -54,6 +57,9 @@ const en: Dict = {
 const ms: Dict = {
   'nav.trips': 'Perjalanan',
   'nav.itinerary': 'Jadual',
+  'nav.group': 'Kumpulan',
+  'nav.language': 'Bahasa',
+  'nav.checkins': 'Daftar masuk',
   'nav.stays': 'Penginapan & Penerbangan',
   'nav.budget': 'Bajet',
   'nav.spending': 'Perbelanjaan',
@@ -90,6 +96,9 @@ const ms: Dict = {
 const ja: Dict = {
   'nav.trips': '旅行',
   'nav.itinerary': '旅程',
+  'nav.group': 'グループ',
+  'nav.language': '言語',
+  'nav.checkins': 'チェックイン',
   'nav.stays': '宿泊・航空券',
   'nav.budget': '予算',
   'nav.spending': '支出',
@@ -126,6 +135,9 @@ const ja: Dict = {
 const zh: Dict = {
   'nav.trips': '行程',
   'nav.itinerary': '日程',
+  'nav.group': '同行者',
+  'nav.language': '语言',
+  'nav.checkins': '签到',
   'nav.stays': '住宿与机票',
   'nav.budget': '预算',
   'nav.spending': '支出',

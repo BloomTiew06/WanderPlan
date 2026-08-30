@@ -1,12 +1,13 @@
 import { describe, expect, it } from 'vitest';
 import {
+  applyVoteEffect,
   memberWeight,
   pickRandomTieBreaker,
   resolveVote,
   tallyVote,
   weightsFor,
 } from '../voting';
-import type { Member, Vote } from '../../types';
+import type { Member, Trip, Vote } from '../../types';
 
 function member(id: string, contributed: number, role: Member['role'] = 'member'): Member {
   return {
@@ -139,5 +140,41 @@ describe('resolveVote', () => {
     expect(weighted.status).toBe('resolved');
     expect(broken.status).toBe('resolved');
     expect(weighted.winningOptionId).toBe(broken.winningOptionId);
+  });
+});
+
+describe('applyVoteEffect', () => {
+  const members = [member('a', 0), member('b', 0)];
+  members[0].quiz = { budget: 100, pace: 'chill', interests: [], mustDos: [] };
+  members[1].quiz = { budget: 100, pace: 'packed', interests: [], mustDos: [] };
+
+  const trip = {
+    id: 't', destinationId: 'penang', destinationName: 'Penang', countryCode: 'MY',
+    mode: 'group', createdBy: 'a', inviteCode: 'X', respondBy: null, seasonWindow: null,
+    dates: null, datesConfirmed: false, outsideRecommendedSeason: false, budgetCap: 0,
+    currency: 'MYR', categoryCaps: {}, members, days: [], costItems: [], votes: [],
+    media: [], visits: [], checkIns: [], stage: 'planning', localLanguage: 'ms',
+    translationEnabled: false, createdAt: '',
+  } as Trip;
+
+  const paceVote: Vote = {
+    ...vote({}),
+    options: [{ id: 'chill', label: 'Chill' }, { id: 'packed', label: 'Packed' }],
+    effect: { kind: 'pace', value: 'chill' },
+  };
+
+  it('records the decision without rewriting what people said they wanted', () => {
+    const next = applyVoteEffect(trip, { ...paceVote, winningOptionId: 'packed' });
+    expect(next.decidedPace).toBe('packed');
+    expect(next.members.map((m) => m.quiz?.pace)).toEqual(['chill', 'packed']);
+  });
+
+  it('ignores a vote that has not resolved', () => {
+    expect(applyVoteEffect(trip, paceVote).decidedPace).toBeUndefined();
+  });
+
+  it('ignores an option that is not a pace', () => {
+    expect(applyVoteEffect(trip, { ...paceVote, winningOptionId: 'nonsense' }).decidedPace)
+      .toBeUndefined();
   });
 });

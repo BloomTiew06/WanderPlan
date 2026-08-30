@@ -163,10 +163,7 @@ export function applyVoteEffect(trip: Trip, vote: Vote): Trip {
   if (vote.effect.kind === 'pace') {
     const pace = vote.winningOptionId as Pace;
     if (!PACES.includes(pace)) return trip;
-    return {
-      ...trip,
-      members: trip.members.map((m) => (m.quiz ? { ...m, quiz: { ...m.quiz, pace } } : m)),
-    };
+    return { ...trip, decidedPace: pace };
   }
   return trip;
 }

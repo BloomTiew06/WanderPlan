@@ -69,6 +69,17 @@ describe('localItinerary', () => {
     expect(kinabalu!.mustDoFor).toBe('priya');
   });
 
+  it('keeps long day trips and must-dos off the arrival and departure days', () => {
+    const days = localItinerary(trip([member('priya', 'balanced', ['Mount Kinabalu'])]), kk);
+    const edges = [days[0], days[days.length - 1]];
+    for (const day of edges) {
+      expect(day.activities.some((a) => a.mustDoFor)).toBe(false);
+      expect(day.activities.every((a) => a.durationMin <= 180)).toBe(true);
+    }
+    // It is still in the plan, just on a day that can absorb it.
+    expect(days.flatMap((d) => d.activities).some((a) => a.poiId === 'kk-kinabalu')).toBe(true);
+  });
+
   it('matches a loosely-worded must-do', () => {
     const days = localItinerary(trip([member('sam', 'balanced', ['the floating city mosque'])]), kk);
     const mosque = days.flatMap((d) => d.activities).find((a) => a.poiId === 'kk-city-mosque');
