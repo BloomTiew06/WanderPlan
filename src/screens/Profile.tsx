@@ -18,7 +18,7 @@ export default function Profile() {
   const pinned = profile.mascot.pinnedStickerId ? findSticker(profile.mascot.pinnedStickerId) : null;
 
   return (
-    <div className="grid gap-4">
+    <div className="stack gap-4">
       <h1 className="h1">Profile</h1>
 
       <Card className="flex flex-wrap items-center gap-5 p-6">
@@ -80,7 +80,7 @@ export default function Profile() {
             one-way — no account needed on their end.
           </p>
         ) : (
-          <div className="grid gap-2">
+          <div className="stack gap-2">
             {profile.emergencyContacts.map((c) => (
               <div key={c.id} className="flex items-center gap-3 rounded-xl bg-sand/60 px-3.5 py-2.5">
                 <span>{c.channel === 'sms' ? '💬' : '✉️'}</span>
@@ -121,7 +121,7 @@ export default function Profile() {
 
       <Card className="p-5">
         <div className="label">Integrations</div>
-        <div className="grid gap-2 text-sm">
+        <div className="stack gap-2 text-sm">
           <Row label="Itinerary & parsing" mode={AI_MODE === 'live' ? 'Live model endpoint' : 'Local planner'} hint="VITE_AI_ENDPOINT" />
           <Row label="Flights & stays" mode={LIVE_SEARCH ? 'Live search' : 'Sample data'} hint="VITE_AMADEUS_ENDPOINT" />
           <Row label="Translation" mode={TRANSLATE_MODE === 'live' ? 'Live API' : 'Offline glossary'} hint="VITE_TRANSLATE_ENDPOINT" />

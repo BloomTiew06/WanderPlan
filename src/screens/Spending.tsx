@@ -56,7 +56,7 @@ export default function Spending() {
   const biggest = cats.reduce((a, b) => (b.total > a.total ? b : a), cats[0]);
 
   return (
-    <div className="grid gap-4">
+    <div className="stack gap-4">
       <h1 className="h1">Where the money's going</h1>
 
       <div className="grid grid-cols-2 gap-2 sm:grid-cols-4">
@@ -69,7 +69,7 @@ export default function Spending() {
         <Stat value={`${Math.round((spend / Math.max(1, trip.budgetCap)) * 100)}%`} label="Of budget" />
       </div>
 
-      <div className="grid gap-4 lg:grid-cols-2">
+      <div className="grid grid-cols-[minmax(0,1fr)] gap-4 lg:grid-cols-2">
         <Card className="p-5">
           <h2 className="mb-1 font-display text-xl">By category</h2>
           <p className="mb-3 text-xs muted">

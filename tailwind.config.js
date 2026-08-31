@@ -3,6 +3,10 @@ export default {
   content: ['./index.html', './src/**/*.{ts,tsx}'],
   theme: {
     extend: {
+      screens: {
+        // Below this the header keeps the logo mark but drops the wordmark.
+        xs: '420px',
+      },
       colors: {
         ink: '#15171c',
         paper: '#faf7f2',

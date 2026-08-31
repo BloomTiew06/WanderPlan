@@ -30,7 +30,7 @@ export default function MyMap() {
     : [];
 
   return (
-    <div className="grid gap-4">
+    <div className="stack gap-4">
       <div>
         <h1 className="h1">Everywhere you've been</h1>
         <p className="mt-2 muted">
@@ -79,7 +79,7 @@ export default function MyMap() {
 
           <Card className="p-5">
             <div className="label">All check-ins ({visits.length})</div>
-            <div className="grid gap-1">
+            <div className="stack gap-1">
               {[...visits].reverse().map((v) => (
                 <button
                   key={v.id}

@@ -7,9 +7,11 @@ function shellSlot(stickerId: string, index: number): { x: number; y: number; ro
   for (let i = 0; i < stickerId.length; i++) h = (h * 31 + stickerId.charCodeAt(i)) >>> 0;
   const col = index % 3;
   const row = Math.floor(index / 3) % 3;
+  // Rows start below the mascot's face — the default layout shouldn't cover it.
+  // Anyone who wants to can still drag a sticker anywhere on the shell.
   return {
-    x: 0.18 + col * 0.32 + ((h % 40) / 1000 - 0.02),
-    y: 0.2 + row * 0.26 + (((h >> 8) % 40) / 1000 - 0.02),
+    x: 0.14 + col * 0.28 + ((h % 40) / 1000 - 0.02),
+    y: 0.36 + row * 0.19 + (((h >> 8) % 30) / 1000 - 0.015),
     rotation: ((h >> 16) % 24) - 12,
   };
 }

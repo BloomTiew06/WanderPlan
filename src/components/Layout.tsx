@@ -28,14 +28,14 @@ export function AppShell({ children }: { children: React.ReactNode }) {
       <header className="sticky top-0 z-40 border-b border-black/5 bg-paper/85 backdrop-blur">
         <div className="flex items-center gap-3 px-4 py-3 sm:px-6">
           <button
-            className="flex items-center gap-2 font-display text-xl"
+            className="flex shrink-0 items-center gap-2 font-display text-lg sm:text-xl"
             onClick={() => navigate('/')}
           >
             <span aria-hidden>🧳</span>
-            <span>WanderPlan</span>
+            <span className="hidden xs:inline">WanderPlan</span>
           </button>
 
-          <nav className="ml-auto flex items-center gap-1">
+          <nav className="ml-auto flex min-w-0 items-center gap-0.5 overflow-x-auto no-scrollbar sm:gap-1">
             <TopLink to="/" label={t('nav.trips')} />
             <TopLink to="/map" label={t('nav.map')} />
             <TopLink to="/passport" label={t('nav.passport')} />
@@ -94,7 +94,7 @@ function TopLink({ to, label }: { to: string; label: string }) {
       to={to}
       end={to === '/'}
       className={({ isActive }) =>
-        `rounded-full px-3 py-1.5 text-sm font-medium transition ${isActive ? 'bg-ink text-paper' : 'text-ink/60 hover:bg-black/5 hover:text-ink'}`
+        `shrink-0 rounded-full px-2.5 py-1.5 text-[13px] font-medium transition sm:px-3 sm:text-sm ${isActive ? 'bg-ink text-paper' : 'text-ink/60 hover:bg-black/5 hover:text-ink'}`
       }
     >
       {label}

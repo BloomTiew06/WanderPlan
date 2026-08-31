@@ -495,11 +495,16 @@ const PLATFORMS: { test: RegExp; name: string }[] = [
   { test: /youtube\.com|youtu\.be/i, name: 'YouTube' },
 ];
 
-export async function extractFromSocial(links: string[], dest: Destination): Promise<ExtractedPlace[]> {
+export async function extractFromSocial(
+  links: string[],
+  dest: Destination,
+  /** Ids already on the itinerary; the fallback resolves around them. */
+  exclude: Set<string> = new Set(),
+): Promise<ExtractedPlace[]> {
   return callModel<ExtractedPlace[]>({
     system: SOCIAL_SYSTEM,
     user: { links, destinationHint: dest.name },
-    fallback: () => localExtract(links, dest),
+    fallback: () => localExtract(links, dest, exclude),
   });
 }
 
@@ -509,11 +514,15 @@ export async function extractFromSocial(links: string[], dest: Destination): Pro
  * destination's own places, which is what a real extraction pass would resolve
  * them to anyway after geocoding.
  */
-function localExtract(links: string[], dest: Destination): ExtractedPlace[] {
-  const candidates = [
+function localExtract(links: string[], dest: Destination, exclude: Set<string>): ExtractedPlace[] {
+  const all = [
     ...dest.pois.map((p) => ({ kind: 'poi' as const, item: p })),
     ...dest.dishes.map((d) => ({ kind: 'dish' as const, item: d })),
   ];
+  // Resolve to somewhere not already planned where possible — a suggestion the
+  // user already has is not a suggestion.
+  const fresh = all.filter((c) => !exclude.has(c.item.id));
+  const candidates = fresh.length > 0 ? fresh : all;
   return links.map((url, i) => {
     const platform = PLATFORMS.find((p) => p.test.test(url))?.name ?? 'Link';
     // Hash the URL so the same link always resolves to the same place.

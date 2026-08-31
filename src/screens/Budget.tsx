@@ -28,7 +28,7 @@ export default function Budget() {
   const perHead = trip.members.length ? spend / trip.members.length : 0;
 
   return (
-    <div className="grid gap-4">
+    <div className="stack gap-4">
       <Card className="p-5">
         <div className="flex flex-wrap items-end justify-between gap-3">
           <div>
@@ -86,7 +86,7 @@ export default function Budget() {
       </div>
 
       {tab === 'breakdown' ? (
-        <div className="grid gap-3">
+        <div className="stack gap-3">
           {cats.map((c) => {
             const items = trip.costItems.filter((i) => i.category === c.category);
             return (
@@ -120,7 +120,7 @@ export default function Budget() {
                 </div>
 
                 {items.length > 0 && (
-                  <div className="mt-3 grid gap-1">
+                  <div className="mt-3 stack gap-1">
                     {items.map((i) => {
                       const payer = trip.members.find((m) => m.id === i.paidBy);
                       return (
@@ -180,10 +180,10 @@ function SettleUp({ trip }: { trip: Trip }) {
   const transfers = settleUp(trip);
 
   return (
-    <div className="grid gap-3">
+    <div className="stack gap-3">
       <Card className="p-5">
         <div className="label">Net position</div>
-        <div className="grid gap-2">
+        <div className="stack gap-2">
           {trip.members.map((m) => {
             const bal = round2(balances[m.id] ?? 0);
             return (
@@ -211,7 +211,7 @@ function SettleUp({ trip }: { trip: Trip }) {
             <p className="mb-3 text-xs muted">
               Netted down to the fewest transfers — no chasing individual receipts.
             </p>
-            <div className="grid gap-2">
+            <div className="stack gap-2">
               {transfers.map((s, i) => {
                 const from = trip.members.find((m) => m.id === s.from)!;
                 const to = trip.members.find((m) => m.id === s.to)!;
@@ -320,7 +320,7 @@ function ExpenseModal({
 
   return (
     <Modal open onClose={onClose} title={item ? 'Edit expense' : 'Add an expense'}>
-      <div className="grid gap-4">
+      <div className="stack gap-4">
         <div>
           <div className="label">What was it?</div>
           <input className="field" value={label} onChange={(e) => setLabel(e.target.value)} />

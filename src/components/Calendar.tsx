@@ -69,7 +69,7 @@ export function Calendar({
   };
 
   return (
-    <div className="grid gap-6 sm:grid-cols-2">
+    <div className="grid grid-cols-[minmax(0,1fr)] gap-6 sm:grid-cols-2">
       {months.map((m) => (
         <MonthGrid
           key={m.toISOString()}

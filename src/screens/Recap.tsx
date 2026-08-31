@@ -65,7 +65,7 @@ export default function Recap() {
   const isOver = trip.stage === 'complete';
 
   return (
-    <div className="grid gap-4">
+    <div className="stack gap-4">
       <div className="flex flex-wrap items-center gap-3">
         <h1 className="h1">Trip recap</h1>
         {!isOver && <Chip tone="info">Builds as you go — final version lands after the last day</Chip>}
@@ -166,7 +166,7 @@ export default function Recap() {
 
           <Card className="p-5">
             <div className="label">Reorder or trim before sharing</div>
-            <div className="grid gap-2">
+            <div className="stack gap-2">
               {ordered.map((m, i) => {
                 const activity = trip.days
                   .flatMap((d) => d.activities)

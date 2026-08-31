@@ -79,7 +79,7 @@ export default function Stays() {
   };
 
   return (
-    <div className="grid gap-4">
+    <div className="stack gap-4">
       <div className="flex flex-wrap items-center gap-3">
         <h1 className="h1">Stays & Flights</h1>
         <Chip tone={LIVE_SEARCH ? 'good' : 'neutral'}>
@@ -97,7 +97,7 @@ export default function Stays() {
             Imported by someone in the group, so everyone sees the same flight times and check-in
             details. These are locked — the planner won't move them.
           </p>
-          <div className="grid gap-2">
+          <div className="stack gap-2">
             {imported.map((a) => (
               <div key={a.id} className="flex items-center gap-3 rounded-xl bg-sand/60 px-3.5 py-3">
                 <span className="text-xl">{a.icon}</span>
@@ -178,7 +178,7 @@ export default function Stays() {
               <Spinner label="Searching flights…" />
             </div>
           ) : (
-            <div className="grid gap-2">
+            <div className="stack gap-2">
               {flights.map((f) => (
                 <Card key={f.id} className="flex flex-wrap items-center gap-3 p-3.5">
                   <div className="min-w-0 flex-1">
@@ -213,7 +213,7 @@ export default function Stays() {
               <Spinner label="Searching stays…" />
             </div>
           ) : (
-            <div className="grid gap-2">
+            <div className="stack gap-2">
               {stays.map((s) => (
                 <Card key={s.id} className="flex flex-wrap items-center gap-3 p-3.5">
                   <div className="min-w-0 flex-1">
@@ -346,7 +346,7 @@ function ImportModal({ open, trip, onClose }: { open: boolean; trip: Trip; onClo
             <Chip tone="info">{parsed.kind === 'flight' ? '✈️ Flight' : '🏨 Hotel'}</Chip>
             <span className="text-sm font-semibold">{parsed.provider}</span>
           </div>
-          <dl className="grid gap-1.5 text-sm sm:grid-cols-2">
+          <dl className="grid grid-cols-[minmax(0,1fr)] gap-1.5 text-sm sm:grid-cols-2">
             <Row label="Reference" value={parsed.reference} />
             {parsed.flightNumber && <Row label="Flight" value={parsed.flightNumber} />}
             {parsed.from && <Row label="Route" value={`${parsed.from} → ${parsed.to}`} />}

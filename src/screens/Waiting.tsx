@@ -57,7 +57,7 @@ export default function Waiting() {
         </div>
 
         <div className="label">Everyone's status</div>
-        <div className="grid gap-2">
+        <div className="stack gap-2">
           {trip.members.map((m) => (
             <div key={m.id} className="flex items-center gap-3 rounded-xl bg-sand/60 px-3 py-2.5">
               <Avatar name={m.name} color={m.avatarColor} />

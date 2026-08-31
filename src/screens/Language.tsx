@@ -28,7 +28,7 @@ export default function Language() {
   const [busy, setBusy] = useState(false);
 
   return (
-    <div className="grid gap-4">
+    <div className="stack gap-4">
       <div className="flex flex-wrap items-center gap-3">
         <h1 className="h1">Speaking the language</h1>
         <Chip tone={TRANSLATE_MODE === 'live' ? 'good' : 'neutral'}>
@@ -96,7 +96,7 @@ export default function Language() {
                 </button>
               ))}
             </div>
-            <div className="grid gap-2">
+            <div className="stack gap-2">
               {phrases
                 .filter((p) => p.category === category)
                 .map((p) => (
@@ -120,7 +120,7 @@ export default function Language() {
         )}
       </Card>
 
-      <div className="grid gap-4 lg:grid-cols-2">
+      <div className="grid grid-cols-[minmax(0,1fr)] gap-4 lg:grid-cols-2">
         <Card className="p-5">
           <h2 className="mb-1 font-display text-xl">Translate anything</h2>
           <p className="mb-3 text-xs muted">Type it here, show the screen.</p>
@@ -174,7 +174,7 @@ export default function Language() {
             📷 Translate the lines
           </button>
           {signResult && (
-            <div className="rise mt-3 grid gap-1.5">
+            <div className="rise mt-3 stack gap-1.5">
               {signResult.map((line, i) => (
                 <div key={i} className="rounded-lg bg-sand px-3 py-2">
                   <div className="text-xs muted">{signText.split('\n').filter(Boolean)[i]}</div>

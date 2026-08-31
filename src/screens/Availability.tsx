@@ -131,7 +131,7 @@ export default function Availability() {
 
       <Card className="p-5">
         <div className="label">Who's responded</div>
-        <div className="grid gap-2">
+        <div className="stack gap-2">
           {trip.members.map((m) => {
             const done = hasSubmitted(m);
             const days = m.availability.reduce((s, r) => s + rangeLength(r), 0);

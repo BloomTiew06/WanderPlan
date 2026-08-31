@@ -73,7 +73,7 @@ export default function NewTrip() {
         autoFocus
       />
 
-      <div className="grid gap-3">
+      <div className="stack gap-3">
         {results.map((d) => (
           <button key={d.id} onClick={() => setPicked(d.id)} className="text-left">
             <Card
@@ -109,7 +109,7 @@ export default function NewTrip() {
 
       <div className="mt-8">
         <div className="label">Who's coming?</div>
-        <div className="grid gap-3 sm:grid-cols-2">
+        <div className="grid grid-cols-[minmax(0,1fr)] gap-3 sm:grid-cols-2">
           {(['group', 'solo'] as const).map((m) => (
             <button key={m} onClick={() => setMode(m)} className="text-left">
               <Card className={`p-4 transition ${mode === m ? 'ring-2 ring-ink' : ''}`}>

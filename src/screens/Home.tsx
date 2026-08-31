@@ -29,8 +29,8 @@ export default function Home() {
   };
 
   return (
-    <div className="grid gap-6">
-      <div className="grid gap-4 lg:grid-cols-[1fr,auto]">
+    <div className="stack gap-6">
+      <div className="grid grid-cols-[minmax(0,1fr)] gap-4 lg:grid-cols-[1fr,auto]">
         <div className="flex flex-col justify-center">
           <h1 className="h1">Plan the escape, together.</h1>
           <p className="mt-3 max-w-xl muted">
@@ -71,7 +71,7 @@ export default function Home() {
       {active.length > 0 && (
         <section>
           <h2 className="h2 mb-3">In progress</h2>
-          <div className="grid gap-3 sm:grid-cols-2">
+          <div className="grid grid-cols-[minmax(0,1fr)] gap-3 sm:grid-cols-2">
             {active.map((tr) => (
               <button key={tr.id} onClick={() => open(tr.id, tr.stage)} className="text-left">
                 <Card className="h-full p-5 transition hover:border-black/20">
@@ -124,7 +124,7 @@ export default function Home() {
       {past.length > 0 && (
         <section>
           <h2 className="h2 mb-3">Trip history</h2>
-          <div className="grid gap-3 sm:grid-cols-2">
+          <div className="grid grid-cols-[minmax(0,1fr)] gap-3 sm:grid-cols-2">
             {past.map((tr) => (
               <button
                 key={tr.id}

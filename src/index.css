@@ -60,6 +60,17 @@ body {
   .muted {
     @apply text-ink/55;
   }
+  /*
+   * Single-column stack. A plain `grid` gives its column an `auto` track, whose
+   * minimum is the content's min-content width — and an auto track is allowed to
+   * overflow its container. One dense row (a long label next to a fixed-width
+   * amount) then widens the whole page on a narrow screen. minmax(0, 1fr) clamps
+   * the track to the container and lets the row's own truncation do its job.
+   */
+  .stack {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr);
+  }
 }
 
 /* Range slider, styled to match the rest of the controls. */

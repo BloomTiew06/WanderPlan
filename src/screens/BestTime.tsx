@@ -132,7 +132,7 @@ export default function BestTime() {
 
           <div className="mt-6">
             <div className="label">Seasons at a glance</div>
-            <div className="grid gap-2">
+            <div className="stack gap-2">
               {seasons
                 .filter((s) => s.rating !== 'ok')
                 .map((s) => (

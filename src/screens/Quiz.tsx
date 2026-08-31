@@ -67,7 +67,7 @@ export default function Quiz() {
     >
       <Card className="p-5">
         <div className="label">Quiz progress ({done.length}/{trip.members.length})</div>
-        <div className="grid gap-2">
+        <div className="stack gap-2">
           {trip.members.map((m) => (
             <button
               key={m.id}
@@ -114,7 +114,7 @@ export default function Quiz() {
 
           <div className="mb-6">
             <div className="label">Pace</div>
-            <div className="grid gap-2">
+            <div className="stack gap-2">
               {(['chill', 'balanced', 'packed'] as Pace[]).map((p) => (
                 <button
                   key={p}
@@ -152,7 +152,7 @@ export default function Quiz() {
             <p className="mb-2 text-xs muted">
               Non-negotiables. These get forced into the itinerary and badged with your name.
             </p>
-            <div className="grid gap-2">
+            <div className="stack gap-2">
               {mustDos.map((v, i) => (
                 <input
                   key={i}

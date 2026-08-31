@@ -113,7 +113,7 @@ export default function Itinerary() {
   };
 
   return (
-    <div className="grid gap-4">
+    <div className="stack gap-4">
       {unlocked.map((id) => {
         const def = STICKER_CATALOG.find((s) => s.id === id)!;
         return (
@@ -169,7 +169,7 @@ export default function Itinerary() {
         </Notice>
       )}
 
-      <div className="grid gap-2">
+      <div className="stack gap-2">
         {day.activities.map((a, i) => (
           <React.Fragment key={a.id}>
             {i > 0 && <TravelLeg from={day.activities[i - 1]} to={a} onRide={openRide} dest={dest} />}
@@ -305,7 +305,7 @@ function SwapModal({
           Nothing else on file nearby that isn't already in the plan. Try regenerating the whole day.
         </p>
       ) : (
-        <div className="grid gap-2">
+        <div className="stack gap-2">
           {alternatives.map((alt) => (
             <button key={alt.id} onClick={() => onPick(alt)} className="text-left">
               <Card className="p-3.5 transition hover:border-black/20">
@@ -372,7 +372,7 @@ function RideModal({
                 No ride-hailing coverage here. A local driver for the day is usually the better
                 option anyway.
               </Notice>
-              <div className="mt-3 grid gap-2">
+              <div className="mt-3 stack gap-2">
                 {dest?.localDrivers.map((d) => (
                   <Card key={d.name} className="flex items-center gap-3 p-3.5">
                     <div className="min-w-0 flex-1">
@@ -387,7 +387,7 @@ function RideModal({
               </div>
             </div>
           ) : (
-            <div className="grid gap-2">
+            <div className="stack gap-2">
               {riders > 1 && (
                 <Notice tone="good">
                   {riders} of you are heading the same way — one shared ride, fare split{' '}
@@ -501,7 +501,7 @@ function SomethingChanged({
         <Card className="rise mb-4 p-4">
           <div className="label">Proposed rest of the day</div>
           <p className="mb-3 text-sm">{result.summary}</p>
-          <div className="grid gap-1.5">
+          <div className="stack gap-1.5">
             {result.day.activities.map((a) => (
               <div key={a.id} className="flex items-center gap-2 rounded-lg bg-sand px-3 py-2 text-sm">
                 <span>{a.icon}</span>

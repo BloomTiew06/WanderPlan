@@ -63,7 +63,7 @@ export default function Social() {
     const links = text.split(/\s+/).map((s) => s.trim()).filter((s) => /^https?:\/\//.test(s));
     if (links.length === 0) return;
     setBusy(true);
-    setPlaces(await extractFromSocial(links, dest));
+    setPlaces(await extractFromSocial(links, dest, alreadyPlanned));
     setDropped(new Set());
     setBusy(false);
   };
@@ -93,7 +93,7 @@ export default function Social() {
   };
 
   return (
-    <div className="grid gap-4">
+    <div className="stack gap-4">
       <div>
         <h1 className="h1">Build from your saved posts</h1>
         <p className="mt-2 max-w-2xl muted">
@@ -138,7 +138,7 @@ export default function Social() {
                 )}
               </div>
             </div>
-            <div className="grid gap-2 sm:grid-cols-2">
+            <div className="grid grid-cols-[minmax(0,1fr)] gap-2 sm:grid-cols-2">
               {places.map((p) => {
                 const dupe = isDuplicate(p);
                 const out = dropped.has(p.id) || dupe;
@@ -187,6 +187,13 @@ export default function Social() {
             </div>
           </Card>
 
+          {kept.length === 0 && (
+            <Notice tone="info">
+              Everything these posts mention is already on your itinerary. Nothing to add — which is
+              a reasonable answer.
+            </Notice>
+          )}
+
           {clusters.length > 0 && (
             <Card className="p-5">
               <div className="label">Suggested route</div>
@@ -194,7 +201,7 @@ export default function Social() {
                 Grouped by distance so each day is roughly one area. Anything that would be a
                 slog gets flagged rather than quietly crammed in.
               </p>
-              <div className="grid gap-3">
+              <div className="stack gap-3">
                 {clusters.map((cluster, i) => {
                   const target = trip.days[i];
                   const worst = cluster
@@ -208,7 +215,7 @@ export default function Social() {
                         {target && <span className="muted">· {formatDate(target.date)}</span>}
                         {!target && <Chip tone="warn">No day for this — will append to the last day</Chip>}
                       </div>
-                      <div className="grid gap-1.5">
+                      <div className="stack gap-1.5">
                         {cluster.map((c) => (
                           <div key={c.id} className="flex items-center gap-2 text-sm">
                             <span>{c.thumbnail}</span>

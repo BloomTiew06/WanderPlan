@@ -27,7 +27,7 @@ export default function Group() {
   };
 
   return (
-    <div className="grid gap-4">
+    <div className="stack gap-4">
       <Card className="p-5">
         <div className="label">Group snapshot</div>
         <h1 className="h2">{snap.headline}</h1>
@@ -98,7 +98,7 @@ export default function Group() {
             </p>
           </div>
         </div>
-        <div className="grid gap-2">
+        <div className="stack gap-2">
           {trip.members.map((m) => (
             <div key={m.id} className="flex items-center gap-3">
               <Avatar name={m.name} color={m.avatarColor} size={28} />
@@ -180,7 +180,7 @@ function VoteCard({ vote, trip }: { vote: Vote; trip: Trip }) {
         </Chip>
       </div>
 
-      <div className="mt-4 grid gap-3">
+      <div className="mt-4 stack gap-3">
         {state.tallies.map((t) => {
           const option = vote.options.find((o) => o.id === t.optionId)!;
           const isLeader = state.leader?.optionId === t.optionId && t.weighted > 0;
@@ -337,7 +337,7 @@ function TieBreakerModal({
             One person makes the final call on this decision only. Pick someone, or let the app pick
             fairly — either way it's logged, so “why them?” has an answer.
           </p>
-          <div className="grid gap-2">
+          <div className="stack gap-2">
             {trip.members.map((m) => (
               <button key={m.id} onClick={() => setAssigned({ member: m, how: 'chosen' })} className="text-left">
                 <Card className="flex items-center gap-3 p-3 transition hover:border-black/20">
@@ -369,7 +369,7 @@ function TieBreakerModal({
             </div>
           </div>
           <p className="mb-3 text-sm muted">One tap. Both options, side by side.</p>
-          <div className="grid gap-2 sm:grid-cols-2">
+          <div className="grid grid-cols-[minmax(0,1fr)] gap-2 sm:grid-cols-2">
             {vote.options.map((o) => (
               <button key={o.id} onClick={() => decide(o.id)} className="text-left">
                 <Card className="h-full p-4 transition hover:border-ink">

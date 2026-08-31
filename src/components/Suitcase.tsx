@@ -3,11 +3,44 @@ import type { EarnedSticker } from '../types';
 import { findSticker } from '../data/stickers';
 import { careState, type CareState } from '../domain/stickers';
 
-const FACES: Record<CareState, { eyes: string; mouth: string }> = {
-  happy: { eyes: '^ ^', mouth: '‿' },
-  neutral: { eyes: '• •', mouth: '—' },
-  hungry: { eyes: '· ·', mouth: '︵' },
-};
+/**
+ * The face is drawn rather than typed: the arc and curved-eye glyphs that read
+ * best here aren't in every system font, and a missing mouth makes the mascot
+ * look broken.
+ */
+function Face({ care, width }: { care: CareState; width: number }) {
+  const stroke = 'rgba(21,23,28,.72)';
+  const common = { fill: 'none', stroke, strokeWidth: 4, strokeLinecap: 'round' as const };
+  return (
+    <svg
+      viewBox="0 0 100 44"
+      width={width}
+      height={width * 0.44}
+      role="img"
+      aria-label={`Mascot looking ${care}`}
+    >
+      {care === 'happy' ? (
+        <>
+          <path d="M22 18 q8 -11 16 0" {...common} />
+          <path d="M62 18 q8 -11 16 0" {...common} />
+          <path d="M36 30 q14 13 28 0" {...common} />
+        </>
+      ) : care === 'neutral' ? (
+        <>
+          <circle cx="30" cy="16" r="3.5" fill={stroke} />
+          <circle cx="70" cy="16" r="3.5" fill={stroke} />
+          <path d="M38 32 h24" {...common} />
+        </>
+      ) : (
+        <>
+          <circle cx="30" cy="17" r="2.5" fill={stroke} />
+          <circle cx="70" cy="17" r="2.5" fill={stroke} />
+          <path d="M36 34 q14 -12 28 0" {...common} />
+        </>
+      )}
+    </svg>
+  );
+}
 
 /**
  * The luggage mascot: a hardshell suitcase with a face and wheels, whose shell
@@ -28,9 +61,8 @@ export function Suitcase({
   onMove?: (id: string, x: number, y: number) => void;
   name?: string;
 }) {
-  const face = FACES[care];
   const w = size;
-  const h = size * 1.22;
+  const h = size * 1.25;
 
   const onDrop = (e: React.DragEvent<HTMLDivElement>) => {
     const id = e.dataTransfer.getData('sticker');
@@ -52,7 +84,7 @@ export function Suitcase({
       {/* Shell */}
       <div
         className="absolute inset-x-0 overflow-hidden rounded-[28px] bg-clay shadow-card ring-4 ring-ink/80"
-        style={{ top: h * 0.08, height: h * 0.8 }}
+        style={{ top: h * 0.08, height: h * 0.74 }}
         onDragOver={(e) => onMove && e.preventDefault()}
         onDrop={onDrop}
       >
@@ -64,9 +96,8 @@ export function Suitcase({
         </div>
 
         {/* Face */}
-        <div className="absolute inset-x-0 top-[16%] text-center">
-          <div className="font-mono text-xl tracking-[0.35em] text-ink/80">{face.eyes}</div>
-          <div className="-mt-1 font-mono text-2xl text-ink/70">{face.mouth}</div>
+        <div className="absolute inset-x-0 top-[12%] flex justify-center">
+          <Face care={care} width={w * 0.44} />
         </div>
 
         {/* Stickers */}
@@ -104,9 +135,9 @@ export function Suitcase({
       </div>
 
       {/* Wheels for feet */}
-      <div className="absolute inset-x-0 flex justify-around px-6" style={{ top: h * 0.86 }}>
+      <div className="absolute inset-x-0 flex justify-around px-6" style={{ top: h * 0.79 }}>
         {[0, 1].map((i) => (
-          <span key={i} className="h-[14%] w-[16%] rounded-full bg-ink/80" style={{ height: h * 0.12 }} />
+          <span key={i} className="w-[16%] rounded-full bg-ink/80" style={{ height: h * 0.1 }} />
         ))}
       </div>
 

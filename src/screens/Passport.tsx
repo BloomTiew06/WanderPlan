@@ -32,7 +32,7 @@ export default function Passport() {
   const earnedRecord = (id: string) => profile.stickers.find((s) => s.stickerId === id);
 
   return (
-    <div className="grid gap-4">
+    <div className="stack gap-4">
       <div className="flex flex-wrap items-center gap-3">
         <h1 className="h1">Passport</h1>
         <Chip tone="neutral">
@@ -52,7 +52,7 @@ export default function Passport() {
       </div>
 
       {tab === 'suitcase' && (
-        <div className="grid gap-4 lg:grid-cols-[auto,1fr]">
+        <div className="grid grid-cols-[minmax(0,1fr)] gap-4 lg:grid-cols-[auto,1fr]">
           <Card className="flex flex-col items-center gap-4 p-6">
             <Suitcase
               stickers={profile.stickers}
@@ -66,7 +66,7 @@ export default function Passport() {
             </p>
           </Card>
 
-          <div className="grid content-start gap-4">
+          <div className="stack content-start gap-4">
             <Card className="p-5">
               <div className="flex flex-wrap items-center gap-3">
                 <div>
@@ -98,7 +98,14 @@ export default function Passport() {
               </div>
               {profile.mascot.lastFedAt && (
                 <p className="mt-2 text-xs muted">
-                  Last fed {new Date(profile.mascot.lastFedAt).toLocaleString('en-GB')}.
+                  Last fed{' '}
+                  {new Date(profile.mascot.lastFedAt).toLocaleString('en-GB', {
+                    day: 'numeric',
+                    month: 'short',
+                    hour: '2-digit',
+                    minute: '2-digit',
+                  })}
+                  .
                 </p>
               )}
             </Card>
@@ -146,7 +153,7 @@ export default function Passport() {
       )}
 
       {tab === 'book' && (
-        <div className="grid gap-4">
+        <div className="stack gap-4">
           <p className="muted">
             Locked stickers show as silhouettes with the name hidden — the book always looks worth
             filling, even on day one.
@@ -193,7 +200,7 @@ export default function Passport() {
       )}
 
       {tab === 'trunk' && (
-        <div className="grid gap-4">
+        <div className="stack gap-4">
           <Card className="p-5">
             <h2 className="font-display text-xl">Group Trunk</h2>
             <p className="mt-1 text-sm muted">
@@ -224,7 +231,7 @@ export default function Passport() {
 
           <Card className="p-5">
             <div className="label">Next tier</div>
-            <div className="grid gap-2">
+            <div className="stack gap-2">
               {STICKER_CATALOG.filter((s) => s.type === 'group').map((s) => {
                 const got = groupUnlocks.some((g) => g.sticker.id === s.id);
                 return (

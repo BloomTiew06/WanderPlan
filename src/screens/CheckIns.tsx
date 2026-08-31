@@ -30,7 +30,7 @@ export default function CheckIns() {
   const overdue = contacts.length > 0 && hoursSince > store.state.profile.checkInThresholdHours;
 
   return (
-    <div className="grid gap-4">
+    <div className="stack gap-4">
       <div className="flex flex-wrap items-center gap-3">
         <h1 className="h1">Check-in snapshots</h1>
         <button className="btn-accent ml-auto" onClick={() => setComposeOpen(true)} disabled={contacts.length === 0}>
@@ -54,7 +54,7 @@ export default function CheckIns() {
             Nobody set up yet. Add a phone number or email — that's all it takes.
           </p>
         ) : (
-          <div className="grid gap-2">
+          <div className="stack gap-2">
             {contacts.map((c) => (
               <div key={c.id} className="flex items-center gap-3 rounded-xl bg-sand/60 px-3.5 py-2.5">
                 <span className="text-lg">{c.channel === 'sms' ? '💬' : '✉️'}</span>
@@ -115,13 +115,13 @@ export default function CheckIns() {
         </Notice>
       )}
 
-      <div className="grid gap-4 lg:grid-cols-2">
+      <div className="grid grid-cols-[minmax(0,1fr)] gap-4 lg:grid-cols-2">
         <Card className="p-5">
           <div className="label">Your check-ins ({trip.checkIns.length})</div>
           {trip.checkIns.length === 0 ? (
             <p className="text-sm muted">Nothing sent yet.</p>
           ) : (
-            <div className="grid gap-3">
+            <div className="stack gap-3">
               {trip.checkIns.map((c) => (
                 <div key={c.id} className="flex gap-3">
                   {c.photoUrl ? (
@@ -164,7 +164,7 @@ export default function CheckIns() {
           {outbox.length === 0 ? (
             <p className="text-sm muted">Nothing sent yet.</p>
           ) : (
-            <div className="grid gap-2">
+            <div className="stack gap-2">
               {outbox.map((m) => (
                 <div key={m.id} className="rounded-xl bg-sand/60 p-3">
                   <div className="flex items-center gap-2">
@@ -318,7 +318,7 @@ function ContactModal({ open, onClose }: { open: boolean; onClose: () => void })
       <p className="mb-4 text-sm muted">
         They don't need the app or an account. Messages go out one-way.
       </p>
-      <div className="grid gap-3">
+      <div className="stack gap-3">
         <div>
           <div className="label">Name</div>
           <input className="field" value={name} onChange={(e) => setName(e.target.value)} placeholder="Mum" />
