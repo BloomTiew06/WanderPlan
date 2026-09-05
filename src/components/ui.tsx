@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react';
+import { COLORS } from '../theme.js';
 
 export function Card({
   className = '',
@@ -43,7 +44,7 @@ export function Avatar({
 export function ProgressBar({
   value = 0,
   max = 1,
-  color = '#15171c',
+  color = COLORS.ink,
   height = 8,
   segments,
 }: {

@@ -9,7 +9,7 @@ import { careState, type CareState } from '../domain/stickers';
  * look broken.
  */
 function Face({ care, width }: { care: CareState; width: number }) {
-  const stroke = 'rgba(21,23,28,.72)';
+  const stroke = 'rgba(245,247,243,.92)';
   const common = { fill: 'none', stroke, strokeWidth: 4, strokeLinecap: 'round' as const };
   return (
     <svg
@@ -83,7 +83,7 @@ export function Suitcase({
 
       {/* Shell */}
       <div
-        className="absolute inset-x-0 overflow-hidden rounded-[28px] bg-clay shadow-card ring-4 ring-ink/80"
+        className="absolute inset-x-0 overflow-hidden rounded-[28px] bg-sea shadow-card ring-4 ring-ink/80"
         style={{ top: h * 0.08, height: h * 0.74 }}
         onDragOver={(e) => onMove && e.preventDefault()}
         onDrop={onDrop}

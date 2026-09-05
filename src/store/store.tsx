@@ -21,6 +21,7 @@ import { newlyUnlocked } from '../domain/stickers';
 import { findDestination } from '../data/destinations';
 import { nextId } from '../services/ai';
 import { translateKey, type Lang } from '../i18n/strings';
+import { AVATAR_COLORS } from '../theme.js';
 
 const STORAGE_KEY = 'wanderplan.state.v1';
 
@@ -162,9 +163,7 @@ export function StoreProvider({ children }: { children: React.ReactNode }) {
           quiz: null,
           costContributed: 0,
           role: 'member',
-          avatarColor: ['#c9603f', '#2f6f70', '#3d7fc1', '#7a4a6e', '#5c7a4a', '#b08b2e'][
-            Math.floor(Math.random() * 6)
-          ],
+          avatarColor: AVATAR_COLORS[Math.floor(Math.random() * AVATAR_COLORS.length)],
           language: 'en',
         };
         updateActiveTrip((tr) => ({ ...tr, members: [...tr.members, member] }));

@@ -1,5 +1,6 @@
 import type { CostCategory, CostItem, Member, Trip } from '../types';
 import { COST_CATEGORIES } from '../types';
+import { CHART } from '../theme.js';
 
 /** Per-category subtotals plus cap status (section 5). */
 export interface CategoryTotal {
@@ -119,14 +120,7 @@ export const CATEGORY_LABELS: Record<CostCategory, string> = {
   other: 'Shopping / Other',
 };
 
-export const CATEGORY_COLORS: Record<CostCategory, string> = {
-  flights: '#3d7fc1',
-  accommodation: '#7a4a6e',
-  food: '#c9603f',
-  activities: '#2f6f70',
-  transport: '#5c7a4a',
-  other: '#9a8c78',
-};
+export const CATEGORY_COLORS: Record<CostCategory, string> = CHART as Record<CostCategory, string>;
 
 export const CATEGORY_ICONS: Record<CostCategory, string> = {
   flights: '✈️',

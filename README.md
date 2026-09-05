@@ -114,7 +114,26 @@ src/
   store/         App state, persisted to localStorage
   screens/       One file per screen
   components/    Shared UI, calendar, suitcase, map
+  theme.js       The palette — the single source of colour
 ```
+
+### Colour
+
+`src/theme.js` is the only place a colour is defined. It's plain JS rather than
+TypeScript so `tailwind.config.js` (loaded by PostCSS in Node) and the app's
+TypeScript modules can both import it — charts, SVG and inline styles can't use
+Tailwind classes, so without one shared module the palette drifts.
+
+The theme is blue and green over warm earth neutrals: deep sea and pine for the
+chrome, sage and stone for surfaces, terracotta and ochre where a warm accent
+earns its place.
+
+The six budget-category hues are a **validated categorical palette**. They pass a
+lightness band, a chroma floor, adjacent-pair colour-vision-deficiency separation
+(protan, deutan, tritan) and a normal-vision separation floor against the page
+surface. The order matters — the checks are on adjacent pairs, which is exactly
+what sits side by side in the donut and the stacked budget bar. Re-run the
+validator before reordering or restyling them.
 
 The interesting logic lives in `domain/` as plain functions so it can be tested
 without a browser. 105 tests cover the parts that are easy to get subtly wrong:

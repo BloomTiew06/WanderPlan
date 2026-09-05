@@ -14,6 +14,7 @@ import {
 } from '../domain/budget';
 import { COST_CATEGORIES, type CostCategory, type CostItem, type Trip } from '../types';
 import { formatDate } from '../domain/dates';
+import { COLORS } from '../theme.js';
 
 export default function Budget() {
   const trip = useOutletContext<Trip>();
@@ -105,7 +106,7 @@ export default function Budget() {
                   <ProgressBar
                     value={c.cap ? c.total : c.total}
                     max={c.cap ?? Math.max(1, spend)}
-                    color={c.over ? '#c9603f' : CATEGORY_COLORS[c.category]}
+                    color={c.over ? COLORS.clay : CATEGORY_COLORS[c.category]}
                     height={6}
                   />
                   <div className="mt-1 flex items-center justify-between text-[11px] muted">

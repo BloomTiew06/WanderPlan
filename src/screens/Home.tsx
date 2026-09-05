@@ -6,6 +6,7 @@ import { careState, collectionProgress } from '../domain/stickers';
 import { totalSpend } from '../domain/budget';
 import { formatRange } from '../domain/dates';
 import { findSticker } from '../data/stickers';
+import { COLORS } from '../theme.js';
 
 export default function Home() {
   const navigate = useNavigate();
@@ -56,7 +57,7 @@ export default function Home() {
                 {progress.earned}/{progress.total}
               </span>
             </div>
-            <ProgressBar value={progress.earned} max={progress.total} color="#2f6f70" height={6} />
+            <ProgressBar value={progress.earned} max={progress.total} color={COLORS.sea} height={6} />
           </div>
           {pinned && (
             <div className="flex items-center gap-2 text-sm">
@@ -109,7 +110,7 @@ export default function Home() {
                       <ProgressBar
                         value={totalSpend(tr.costItems)}
                         max={tr.budgetCap}
-                        color={totalSpend(tr.costItems) > tr.budgetCap ? '#c9603f' : '#2f6f70'}
+                        color={totalSpend(tr.costItems) > tr.budgetCap ? COLORS.clay : COLORS.moss}
                         height={5}
                       />
                     </div>

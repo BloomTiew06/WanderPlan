@@ -11,6 +11,7 @@ import {
   weightsFor,
 } from '../domain/voting';
 import type { Member, Trip, Vote } from '../types';
+import { COLORS } from '../theme.js';
 
 export default function Group() {
   const trip = useOutletContext<Trip>();
@@ -58,7 +59,7 @@ export default function Group() {
                 <ProgressBar
                   value={snap.paceCounts[p]}
                   max={Math.max(1, snap.respondents)}
-                  color={p === (trip.decidedPace ?? snap.dominantPace) ? '#2f6f70' : '#d8cfc0'}
+                  color={p === (trip.decidedPace ?? snap.dominantPace) ? COLORS.sea : COLORS.silt}
                   height={6}
                 />
               </div>
@@ -209,7 +210,7 @@ function VoteCard({ vote, trip }: { vote: Vote; trip: Trip }) {
                   })}
                 </span>
               </div>
-              <ProgressBar value={t.share} color={isLeader ? '#2f6f70' : '#c9c0af'} height={10} />
+              <ProgressBar value={t.share} color={isLeader ? COLORS.sea : COLORS.silt} height={10} />
               {option.detail && <p className="mt-1 text-xs muted">{option.detail}</p>}
             </div>
           );

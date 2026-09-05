@@ -1,4 +1,5 @@
 import type { Visit } from '../types';
+import { COLORS } from '../theme.js';
 import { projectToPercent } from '../domain/geo';
 
 /**
@@ -50,14 +51,14 @@ export function WorldMap({
   });
 
   return (
-    <div className="relative aspect-[16/10] w-full overflow-hidden rounded-2xl bg-sky/10 ring-1 ring-black/5">
+    <div className="relative aspect-[16/10] w-full overflow-hidden rounded-2xl bg-sea/10 ring-1 ring-sea/15">
       <svg viewBox="0 0 100 100" preserveAspectRatio="none" className="absolute inset-0 h-full w-full">
         {/* Latitude and longitude guides, so the projection reads as a map. */}
         {Array.from({ length: 9 }, (_, i) => (
-          <line key={`h${i}`} x1={0} y1={i * 12.5} x2={100} y2={i * 12.5} stroke="#00000008" strokeWidth={0.3} />
+          <line key={`h${i}`} x1={0} y1={i * 12.5} x2={100} y2={i * 12.5} stroke={COLORS.ink} strokeOpacity={0.05} strokeWidth={0.3} />
         ))}
         {Array.from({ length: 9 }, (_, i) => (
-          <line key={`v${i}`} x1={i * 12.5} y1={0} x2={i * 12.5} y2={100} stroke="#00000008" strokeWidth={0.3} />
+          <line key={`v${i}`} x1={i * 12.5} y1={0} x2={i * 12.5} y2={100} stroke={COLORS.ink} strokeOpacity={0.05} strokeWidth={0.3} />
         ))}
 
         {codes.map((code) => {
@@ -73,11 +74,11 @@ export function WorldMap({
               width={Math.max(0.5, b.x - a.x)}
               height={Math.max(0.5, b.y - a.y)}
               rx={1.5}
-              fill="#2f6f70"
-              opacity={0.14}
-              stroke="#2f6f70"
-              strokeOpacity={0.3}
-              strokeWidth={0.3}
+              fill={COLORS.moss}
+              opacity={0.22}
+              stroke={COLORS.pine}
+              strokeOpacity={0.45}
+              strokeWidth={0.35}
             />
           );
         })}

@@ -3,10 +3,11 @@ import { findDestination } from '../data/destinations';
 import { addDays, iso } from '../domain/dates';
 import { localItinerary } from '../services/ai';
 import { newlyUnlocked } from '../domain/stickers';
+import { AVATAR_COLORS } from '../theme.js';
 
 export const YOU_ID = 'm-you';
 
-const COLORS = ['#c9603f', '#2f6f70', '#3d7fc1', '#7a4a6e', '#5c7a4a', '#b08b2e'];
+const COLORS = AVATAR_COLORS;
 
 export function makeMember(
   id: string,

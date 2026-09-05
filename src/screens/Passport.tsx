@@ -6,6 +6,7 @@ import { STICKER_CATALOG } from '../data/stickers';
 import { careState, collectionProgress, FEED_COST, groupStickersFor } from '../domain/stickers';
 import { formatDate } from '../domain/dates';
 import type { StickerDef } from '../types';
+import { COLORS } from '../theme.js';
 
 export default function Passport() {
   const store = useStore();
@@ -112,7 +113,7 @@ export default function Passport() {
 
             <Card className="p-5">
               <div className="label">Collection</div>
-              <ProgressBar value={progress.earned} max={progress.total} color="#2f6f70" height={10} />
+              <ProgressBar value={progress.earned} max={progress.total} color={COLORS.sea} height={10} />
               <div className="mt-2 grid grid-cols-3 gap-2">
                 <Stat
                   value={profile.stickers.filter((s) => STICKER_CATALOG.find((d) => d.id === s.stickerId)?.type === 'landmark').length}
